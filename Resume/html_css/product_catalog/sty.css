@@ -1,0 +1,52 @@
+body{
+   margin-top: 50px;
+}
+
+.temp{
+    display: none;
+}
+
+h2{
+    text-align: center;
+    color: blue;
+}
+
+.catalog{
+    max-width: 1000px;
+    padding: 15px;
+    margin: auto;
+    border-radius: 10px;
+    box-shadow: 0 0 10px #ccc;
+}
+
+table{
+    width: 100%;
+}
+
+th, td{
+    text-align: center;
+    padding: 5px;
+    border-bottom: 1px solid black;
+}
+
+.pagination{
+    text-align: center;
+    margin-top: 20px;
+}
+
+.pagination label{
+    background-color: rgb(63, 63, 251);
+    color: white;
+    padding: 10px;
+    border-radius: 12px;
+    margin-right: 5px;
+}
+
+.page{
+    display: none;
+}
+
+#page1:checked ~ .catalog .page1 ,
+#page2:checked ~ .catalog .page2 {
+    display: block;
+}

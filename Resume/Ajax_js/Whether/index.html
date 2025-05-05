@@ -1,0 +1,32 @@
+<!Doctype html>
+<html>
+    <head>
+        <title>Whether App Practice</title>
+    </head>
+    <body>
+        <input type="text" id="cityname" placeholder="Enter city name">
+        <button onclick="getWhether()">Get Whether</button>
+        <div id="result"></div>
+        
+        <script>
+            function getWhether(){
+                const city=document.getElementById("cityname").value.trim();
+                const xhr= new XMLHttpRequest();
+                xhr.open("GET","data.json",true);
+                xhr.send();
+
+                xhr.onload = function() {
+                    const data=JSON.parse(xhr.responseText);
+                    const info=data[city];
+
+                    document.getElementById("result").innerHTML = info ? 
+                    `Temp: ${info.temp}<br>
+                     Humidity: ${info.humidity}<br> 
+                     Condition: ${info.condition}<br>`
+                     : "City Not Found" ;
+                };
+            }
+        </script>
+
+    </body>
+</html>

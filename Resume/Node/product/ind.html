@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Practice</title>
+</head>
+
+<body>
+    <div id="result"></div>
+    <script>
+        fetch('/products')
+            .then(res => res.json())
+            .then(data => {
+                let ans = document.getElementById('result');
+                data.forEach(p => {
+                      ans.innerHTML += `
+                          <div>
+                          <img src="${p.image}" alter="Product"><br>
+                          <h3>Name: ${p.name} </h3>
+                          <p>Price: ${p.price} </p> 
+                       `
+                });
+            });
+    </script>
+</body>
+
+</html>

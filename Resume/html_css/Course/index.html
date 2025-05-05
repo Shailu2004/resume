@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Online Learning Hub - Courses</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f9f9f9;
+      color: #333;
+    }
+
+    header {
+      background-color: #34495e;
+      color: white;
+      padding: 40px 20px;
+      text-align: center;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 36px;
+    }
+
+    section {
+      padding: 30px 20px;
+      max-width: 1000px;
+      margin: auto;
+    }
+
+    .intro {
+      background: #ffffff;
+      padding: 20px;
+      border-left: 5px solid #34495e;
+      border-radius: 8px;
+      margin-bottom: 30px;
+    }
+
+    .intro p {
+      line-height: 1.6;
+    }
+
+    .steps ol {
+      padding-left: 20px;
+      line-height: 1.8;
+    }
+
+    .categories ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .categories li::before {
+      content: "📘 ";
+    }
+
+    .course-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+
+    .course-table th,
+    .course-table td {
+      padding: 15px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+
+    .course-table th {
+      background-color: #ecf0f1;
+    }
+
+    @media (max-width: 600px) {
+      .course-table td,
+      .course-table th {
+        font-size: 14px;
+        padding: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Online Learning Hub - Courses</h1>
+    <p>Welcome to Online Learning Hub</p>
+  </header>
+
+  <section class="intro">
+    <h2>About Online Learning</h2>
+    <p>Welcome to the Online Learning Hub, your gateway to flexible and effective online education. Our platform offers a wide range of industry-relevant courses taught by expert instructors, designed to empower you with real-world skills at your own pace.</p>
+    <p><strong>Why Choose Us?</strong> Learn from anywhere, anytime with curated content, hands-on projects, and interactive lessons tailored to your career growth.</p>
+  </section>
+
+  <section class="steps">
+    <h2>📚 Step-by-Step Learning Paths</h2>
+    <ol>
+      <li>Beginner</li>
+      <li>Intermediate</li>
+      <li>Advanced</li>
+    </ol>
+  </section>
+
+  <section class="categories">
+    <h2>🎓 Course Categories</h2>
+    <ul>
+      <li>AI & ML</li>
+      <li>Data Science</li>
+      <li>Web Development</li>
+    </ul>
+  </section>
+
+  <section class="courses">
+    <h2>📋 Available Courses</h2>
+    <table class="course-table">
+      <tr>
+        <th>Course Name</th>
+        <th>Instructor</th>
+        <th>Duration</th>
+        <th>Fee (INR ₹)</th>
+      </tr>
+      <tr>
+        <td>Machine Learning Basics</td>
+        <td>Dr. Ritu Sharma</td>
+        <td>6 Weeks</td>
+        <td>₹4,999</td>
+      </tr>
+      <tr>
+        <td>Data Science with Python</td>
+        <td>Mr. Arjun Mehta</td>
+        <td>8 Weeks</td>
+        <td>₹5,499</td>
+      </tr>
+      <tr>
+        <td>Frontend Web Development</td>
+        <td>Ms. Neha Kulkarni</td>
+        <td>10 Weeks</td>
+        <td>₹3,999</td>
+      </tr>
+      <tr>
+        <td>Advanced Deep Learning</td>
+        <td>Dr. Anil Kumar</td>
+        <td>12 Weeks</td>
+        <td>₹7,499</td>
+      </tr>
+    </table>
+  </section>
+
+</body>
+</html>

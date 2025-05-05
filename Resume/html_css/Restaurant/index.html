@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ABC Delights - Restaurant Menu</title>
+  <style>
+    
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: #fff8f0;
+      color: #333;
+    }
+
+    header {
+      background-color: #d35400;
+      color: white;
+      padding: 40px 20px;
+      text-align: center;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 40px;
+    }
+
+    section {
+      padding: 40px 20px;
+      max-width: 1000px;
+      margin: auto;
+      background: white;
+      margin-top: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    .intro {
+      background: #fefefe;
+      border-left: 5px solid #d35400;
+      padding: 20px;
+      border-radius: 8px;
+      margin-bottom: 30px;
+    }
+
+    .menu-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+
+    .menu-table th,
+    .menu-table td {
+      padding: 15px;
+      border-bottom: 1px solid #ddd;
+    }
+
+    .menu-table img {
+      width: 80px;
+      height: 80px;
+      border-radius: 8px;
+      object-fit: cover;
+    }
+
+    .menu-table th {
+      background-color: #f3e5d5;
+    }
+
+    @media (max-width: 600px) {
+      .menu-table img {
+        width: 60px;
+        height: 60px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>ABC Delights - Restaurant Menu</h1>
+    <p>Welcome to ABC Delights</p>
+  </header>
+
+  <section class="intro">
+    <h2>About Us</h2>
+    <p>Welcome to ABC Delights, where tradition meets taste. Our experienced chefs bring you authentic flavors from around the world. Each dish is crafted with care, ensuring the highest quality ingredients and utmost hygiene. We promise a delightful dining experience with every visit.</p>
+    <p><strong>Chef’s Message:</strong> “We don’t just cook food — we craft memories on a plate!”</p>
+  </section>
+
+  <section class="top-dishes">
+    <h2>🌟 Top Dishes</h2>
+    <ol>
+      <li>Paneer Tikka</li>
+      <li>Chicken Biryani</li>
+      <li>Veg Hakka Noodles</li>
+    </ol>
+  </section>
+
+  <section class="cuisines">
+    <h2>🍽️ Available Cuisines</h2>
+    <ul>
+      <li>Italian</li>
+      <li>Indian</li>
+      <li>Chinese</li>
+    </ul>
+  </section>
+
+  <section class="menu">
+    <h2>🍛 Full Menu</h2>
+    <table class="menu-table">
+      <tr>
+        <th>Dish</th>
+        <th>Description</th>
+        <th>Image</th>
+        <th>Price (INR ₹)</th>
+      </tr>
+      <tr>
+        <td>Paneer Tikka</td>
+        <td>Grilled cottage cheese marinated in spicy yogurt mix.</td>
+        <td><img src="https://www.indianhealthyrecipes.com/wp-content/uploads/2021/12/paneer-tikka-recipe.jpg" alt="Paneer Tikka"></td>
+        <td>₹299</td>
+      </tr>
+      <tr>
+        <td>Chicken Biryani</td>
+        <td>Fragrant basmati rice cooked with spiced chicken and herbs.</td>
+        <td><img src="https://www.indianhealthyrecipes.com/wp-content/uploads/2021/12/chicken-biryani.jpg" alt="Biryani"></td>
+        <td>₹349</td>
+      </tr>
+      <tr>
+        <td>Veg Hakka Noodles</td>
+        <td>Stir-fried noodles with mixed vegetables and soy sauce.</td>
+        <td><img src="https://www.indianhealthyrecipes.com/wp-content/uploads/2021/11/veg-hakka-noodles-recipe.jpg" alt="Noodles"></td>
+        <td>₹199</td>
+      </tr>
+      <tr>
+        <td>Margherita Pizza</td>
+        <td>Classic Italian pizza with fresh basil and mozzarella.</td>
+        <td><img src="https://www.simplyrecipes.com/thmb/kYRMVffM9C-2eGO5oxjVEmOHKJc=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/Simply-Recipes-Margherita-Pizza-LEAD-8-549cfa7783094d09a230bc85023b6ea2.jpg" alt="Pizza"></td>
+        <td>₹399</td>
+      </tr>
+    </table>
+  </section>
+
+</body>
+</html>
