@@ -1,0 +1,95 @@
+package PackageDemo;
+
+import java.io.*;
+import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.fs.Path;
+import org.apache.hadoop.io.*;
+import org.apache.hadoop.mapreduce.*;
+import org.apache.hadoop.mapreduce.lib.input.*;
+import org.apache.hadoop.mapreduce.lib.output.*;
+
+public class LogProcessing {
+
+  public static void main(String[] args) throws Exception {
+    Configuration conf = new Configuration();
+    Job job = Job.getInstance(conf, "user max login time");
+
+    job.setJarByClass(LogProcessing.class);
+    job.setMapperClass(LogMapper.class);
+    job.setReducerClass(LogReducer.class);
+
+    job.setOutputKeyClass(Text.class);
+    job.setOutputValueClass(IntWritable.class);
+    job.setMapOutputKeyClass(Text.class);
+    job.setMapOutputValueClass(IntWritable.class);
+
+    FileInputFormat.addInputPath(job, new Path(args[0]));
+    FileOutputFormat.setOutputPath(job, new Path(args[1]));
+
+    System.exit(job.waitForCompletion(true) ? 0 : 1);
+  }
+}
+
+// Mapper class
+class LogMapper extends Mapper<LongWritable, Text, Text, IntWritable> {
+
+  private Text user = new Text();
+  private IntWritable loginDuration = new IntWritable();
+  private int loginTime = 0;
+  private String currentUser = "";
+  private int startTime = 0;
+
+  public void map(LongWritable key, Text value, Context context) throws IOException, InterruptedException {
+    String[] parts = value.toString().split(",");
+    String timestampStr = parts[0].trim();
+    String userStr = parts[1].trim();
+    String action = parts[2].trim();
+
+    int timestamp = Integer.parseInt(timestampStr);
+
+    if (action.equals("LOGIN")) {
+      currentUser = userStr;
+      startTime = timestamp;
+    } else if (action.equals("LOGOUT") && currentUser.equals(userStr)) {
+      loginTime = timestamp - startTime;
+      user.set(userStr);
+      loginDuration.set(loginTime);
+      context.write(user, loginDuration);
+    }
+  }
+}
+
+// Reducer class
+class LogReducer extends Reducer<Text, IntWritable, Text, IntWritable> {
+
+  public void reduce(Text key, Iterable<IntWritable> values, Context context) throws IOException, InterruptedException {
+    int totalLoginTime = 0;
+    for (IntWritable val : values) {
+      totalLoginTime += val.get();
+    }
+    context.write(key, new IntWritable(totalLoginTime));
+  }
+}
+
+
+1,u1,LOGIN
+5,u1,LOGOUT
+2,u2,LOGIN
+10,u2,LOGOUT
+3,u3,LOGIN
+7,u3,LOGOUT
+12,u1,LOGIN
+15,u1,LOGOUT
+20,u2,LOGIN
+25,u2,LOGOUT
+
+
+u1	7
+u2	13
+u3	4
+
+
+hadoop fs -put wordcountFile wordCountFile
+hadoop jar MRProgramsDemo.jar PackageDemo.WordCount wordCountFile MRDir1
+hadoop fs -ls MRDir1
+hadoop fs -cat MRDir1/part-r-00000

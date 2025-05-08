@@ -1,0 +1,78 @@
+import java.io.IOException;
+import java.util.HashSet;
+import java.util.Set;
+import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.fs.Path;
+import org.apache.hadoop.io.*;
+import org.apache.hadoop.mapreduce.*;
+import org.apache.hadoop.mapreduce.lib.input.*;
+import org.apache.hadoop.mapreduce.lib.output.*;
+
+public class MusicTrackStats {
+
+  public static class TrackMapper extends Mapper<LongWritable, Text, Text, Text> {
+    public void map(LongWritable key, Text value, Context context) throws IOException, InterruptedException {
+      String[] p = value.toString().split(",");
+      if (p.length == 3) {
+        context.write(new Text("USER"), new Text(p[0]));  // For unique users
+        context.write(new Text(p[1]), new Text(p[2]));    // For per-track stats
+      }
+    }
+  }
+
+  public static class TrackReducer extends Reducer<Text, Text, Text, Text> {
+    Set<String> uniqueUsers = new HashSet<>();
+
+    public void reduce(Text key, Iterable<Text> values, Context context) throws IOException, InterruptedException {
+      if (key.toString().equals("USER")) {
+        for (Text val : values) uniqueUsers.add(val.toString());
+        context.write(new Text("Total Unique Listeners"), new Text(String.valueOf(uniqueUsers.size())));
+      } else {
+        int listen = 0, skip = 0, share = 0;
+        for (Text val : values) {
+          String action = val.toString().toLowerCase();
+          if (action.equals("listen")) listen++;
+          else if (action.equals("skip")) skip++;
+          else if (action.equals("share")) share++;
+        }
+        context.write(key, new Text("listened=" + listen + " skipped=" + skip + " shared=" + share));
+      }
+    }
+  }
+
+  public static void main(String[] args) throws Exception {
+    Configuration conf = new Configuration();
+    Job job = Job.getInstance(conf, "Music Stats");
+    job.setJarByClass(MusicTrackStats.class);
+    job.setMapperClass(TrackMapper.class);
+    job.setReducerClass(TrackReducer.class);
+    job.setOutputKeyClass(Text.class);
+    job.setOutputValueClass(Text.class);
+    FileInputFormat.addInputPath(job, new Path(args[0]));
+    FileOutputFormat.setOutputPath(job, new Path(args[1]));
+    System.exit(job.waitForCompletion(true) ? 0 : 1);
+  }
+}
+
+
+
+u1,t1,listen
+u2,t1,skip
+u1,t1,share
+u3,t2,listen
+u2,t2,share
+u4,t1,listen
+u5,t2,skip
+u1,t3,listen
+
+
+Total Unique Listeners	5
+t1	listened=2 skipped=1 shared=1
+t2	listened=1 skipped=1 shared=1
+t3	listened=1 skipped=0 shared=0
+
+
+hadoop fs -put wordcountFile wordCountFile
+hadoop jar MRProgramsDemo.jar PackageDemo.WordCount wordCountFile MRDir1
+hadoop fs -ls MRDir1
+hadoop fs -cat MRDir1/part-r-00000

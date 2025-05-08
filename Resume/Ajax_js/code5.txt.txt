@@ -1,0 +1,86 @@
+package PackageDemo;
+
+import java.io.*;
+import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.fs.Path;
+import org.apache.hadoop.io.*;
+import org.apache.hadoop.mapreduce.*;
+import org.apache.hadoop.mapreduce.lib.input.*;
+import org.apache.hadoop.mapreduce.lib.output.*;
+
+public class MovieRatingAverage {
+
+  public static void main(String[] args) throws Exception {
+
+    Configuration conf = new Configuration();
+    Job job = Job.getInstance(conf, "movie average rating");
+
+    job.setJarByClass(MovieRatingAverage.class);
+    job.setMapperClass(MovieMapper.class);
+    job.setReducerClass(MovieReducer.class);
+
+    job.setOutputKeyClass(Text.class);
+    job.setOutputValueClass(FloatWritable.class);
+    job.setMapOutputKeyClass(Text.class);
+    job.setMapOutputValueClass(IntWritable.class);
+
+    FileInputFormat.addInputPath(job, new Path(args[0]));
+    FileOutputFormat.setOutputPath(job, new Path(args[1]));
+
+    System.exit(job.waitForCompletion(true) ? 0 : 1);
+  }
+
+}
+
+// Mapper class
+class MovieMapper extends Mapper<LongWritable, Text, Text, IntWritable> {
+
+  private Text movie = new Text();
+  private IntWritable rating = new IntWritable();
+
+  public void map(LongWritable key, Text value, Context context) throws IOException, InterruptedException {
+    String[] parts = value.toString().split(",");
+    movie.set(parts[1].trim().toUpperCase());
+    rating.set(Integer.parseInt(parts[2].trim()));
+    context.write(movie, rating);
+  }
+}
+
+// Reducer class
+class MovieReducer extends Reducer<Text, IntWritable, Text, FloatWritable> {
+
+  public void reduce(Text key, Iterable<IntWritable> values, Context context) throws IOException, InterruptedException {
+    int sum = 0, count = 0;
+    for (IntWritable val : values) {
+      sum += val.get();
+      count++;
+    }
+    float average = (float) sum / count;
+    context.write(key, new FloatWritable(average));
+  }
+}
+
+
+u1,avatar,4
+u2,inception,3
+u3,avatar,3
+u4,inception,4
+u5,interstellar,5
+u6,interstellar,3
+u7,avatar,5
+
+
+AVATAR	4.0
+INCEPTION	3.5
+INTERSTELLAR	4.0
+
+
+hadoop fs -put wordcountFile wordCountFile
+hadoop jar MRProgramsDemo.jar PackageDemo.WordCount wordCountFile MRDir1
+hadoop fs -ls MRDir1
+hadoop fs -cat MRDir1/part-r-00000
+
+
+
+
+
